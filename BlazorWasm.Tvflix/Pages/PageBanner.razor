@@ -4,8 +4,13 @@
         <div class="banner-slider">
             @foreach (var item in Data.results)
             {
-                <div class="slider-item active" slider-item="">
-                    <img src="@(ImageBaseUrl.url)w1280 @item.backdrop_path" alt="Barbie" class="img-cover" loading="eager">
+                string imageUrl = ImageBaseUrl.url + "w1280" + item.backdrop_path;
+                <div class="slider-item
+                @(Id == item.id || Time == BannerTime.first ? "active": "")" slider-item="">
+                    @{
+                        Time = BannerTime.second;
+                    }
+                    <img src="@imageUrl" alt="Barbie" class="img-cover" loading="eager">
 
                     <div class="banner-content">
 
@@ -31,10 +36,39 @@
                 </div>
             }
         </div>
+        <div class="slider-control">
+            <div class="control-inner">
+                @{
+                    Time = BannerTime.first;
+                }
+                @foreach (var item in Data.results)
+                {
+                    string imageUrl = ImageBaseUrl.url + "w1280" + item.poster_path;
+                    <button class="poster-box slider-item
+                    @(Id == item.id || Time == BannerTime.first ? "active": "")"
+                            slider-control="0"
+                    @onclick="()=>Active(item.id)">
+                        @{
+                            Time = BannerTime.second;
+                        }
+                        <img src="@imageUrl" alt="Slide to @item.original_title" loading="lazy" draggable="false" class="img-cover">
+                    </button>
+                }
+            </div>
+        </div>
     </section>
 }
 
 @code {
     [Parameter]
     public BannerList? Data { get; set; }
+    
+    private int Id;
+    private BannerTime Time = BannerTime.first;
+
+    void Active(int id)
+    {
+        Id = id;
+        Time = BannerTime.second;
+    }
 }
