@@ -2,19 +2,51 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>BlazorWasm.Tvflix</title>
-    <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/app.css" rel="stylesheet" />
-    <link href="BlazorWasm.Tvflix.styles.css" rel="stylesheet" />
+    <base hrefs="/" />
+
+    <!--
+      - primary meta tags
+    -->
+    <title>Tvflix</title>
+    <meta name="title" content="Tvflix">
+    <meta name="description" content="Tvflix is a popular movie app made by codewithsadee.">
+
+    <!--
+      - favicon
+    -->
+    <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml">
+
+    <!--
+      - google font link
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+    <!--
+      - custom css link
+    -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link href="app.css" rel="stylesheet" />
+
     <link href="manifest.json" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+
+    <!--
+      - custom js link
+    -->
+    <script src="assets/js/global.js" defer></script>
+    <script src="assets/js/index.js" type="module"></script>
+
 </head>
 
 <body>
+
     <div id="app">Loading...</div>
 
     <div id="blazor-error-ui">
@@ -24,6 +56,7 @@
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
+
 </body>
 
 </html>
