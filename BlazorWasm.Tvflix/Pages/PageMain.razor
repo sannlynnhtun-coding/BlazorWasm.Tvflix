@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject MovieListService MoiveListService
+@inject BannerListService BannerListService
 
 <!--
    - #HEADER
@@ -10,7 +11,6 @@
     <NavLink href="" class="logo">
         <img src="assets/images/logo.svg" width="140" height="32" alt="Tvflix home">
     </NavLink>
-
     <div class="search-box" search-box>
         <div class="search-wrapper" search-wrapper>
             <input type="text" name="search" aria-label="search movies" placeholder="Search any movies..."
@@ -88,5 +88,8 @@
 
 
 
-    <article class="container" page-content></article>
+    <article class="container" page-content>
+        <PageBanner Data="_bannerList"></PageBanner>
+
+    </article>
 </main>

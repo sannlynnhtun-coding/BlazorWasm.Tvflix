@@ -1,0 +1,40 @@
+﻿@if (Data is not null)
+{
+    <section class="banner" aria-label="Popular Movies">
+        <div class="banner-slider">
+            @foreach (var item in Data.results)
+            {
+                <div class="slider-item active" slider-item="">
+                    <img src="@(ImageBaseUrl.url)w1280 @item.backdrop_path" alt="Barbie" class="img-cover" loading="eager">
+
+                    <div class="banner-content">
+
+                        <h2 class="heading">@item.title</h2>
+
+                        <div class="meta-list">
+                            <div class="meta-item">@(item.release_date ??= "Not Released")</div>
+
+                            <div class="meta-item card-badge">@item.vote_average</div>
+                        </div>
+
+                        <p class="genre">Comedy, Adventure, Fantasy</p>
+
+                        <p class="banner-text">@item.overview</p>
+
+                        <a href="javascript:void(0);" class="btn" onclick="getMovieDetail(346698)">
+                            <img src="assets/images/play_circle.png" width="24" height="24" aria-hidden="true" alt="play circle">
+
+                            <span class="span">Watch Now</span>
+                        </a>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+}
+
+@code {
+    [Parameter]
+    public BannerList? Data { get; set; }
+}

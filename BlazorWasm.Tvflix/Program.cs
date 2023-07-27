@@ -9,5 +9,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient());
 builder.Services.AddScoped<MovieListService>();
+builder.Services.AddScoped<BannerListService>();
 
 await builder.Build().RunAsync();
