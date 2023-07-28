@@ -3,12 +3,12 @@
 public class TopRatedMovieList
 {
     public int page { get; set; }
-    public Results[] results { get; set; }
+    public MovieResults[] results { get; set; }
     public int total_pages { get; set; }
     public int total_results { get; set; }
 }
 
-public class Results
+public class MovieResults
 {
     public bool adult { get; set; }
     public string backdrop_path { get; set; }
