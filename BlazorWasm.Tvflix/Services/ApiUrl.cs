@@ -4,5 +4,6 @@
     {
         public const string MovieList = "https://api.themoviedb.org/3/genre/movie/list?api_key={0}";
         public const string PopularList = "https://api.themoviedb.org/3/movie/popular?api_key={0}&page=1";
+        public const string TopRatedList = "https://api.themoviedb.org/3/movie/top_rated?api_key={0}&page=1";
     }
 }
