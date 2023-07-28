@@ -12,6 +12,7 @@ namespace BlazorWasm.Tvflix.Pages
         {
             _movieList = await MoiveListService.GetAsync(_key);
             _bannerList = await BannerListService.GetAsync(_key);
+            _bannerList = await BannerListService.SetGenre(_bannerList, _movieList);
         }
 
         private void GetMovieList(Genre genre)
