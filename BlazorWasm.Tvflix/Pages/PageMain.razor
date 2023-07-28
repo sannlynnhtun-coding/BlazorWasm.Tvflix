@@ -1,6 +1,7 @@
 ﻿@page "/"
 @inject MovieListService MoiveListService
 @inject BannerListService BannerListService
+@inject WeeklyTrendingMovieListService WeeklyTrendingListService
 
 <!--
    - #HEADER
@@ -91,5 +92,6 @@
     <article class="container" page-content>
         <PageBanner Data="_bannerList"></PageBanner>
 
+        <PageWeeklyTrendingMovieList></PageWeeklyTrendingMovieList>
     </article>
 </main>
