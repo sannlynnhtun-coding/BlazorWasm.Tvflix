@@ -22,11 +22,11 @@
                             <div class="meta-item card-badge">@item.vote_average</div>
                         </div>
 
-                        <p class="genre">Comedy, Adventure, Fantasy</p>
+                        <p class="genre">@item.genre_name</p>
 
                         <p class="banner-text">@item.overview</p>
 
-                        <a href="javascript:void(0);" class="btn" onclick="getMovieDetail(346698)">
+                        <a href="javascript:void(0);" class="btn" @onclick="() => WatchNowClick(item.id)">
                             <img src="assets/images/play_circle.png" width="24" height="24" aria-hidden="true" alt="play circle">
 
                             <span class="span">Watch Now</span>
@@ -62,6 +62,9 @@
 @code {
     [Parameter]
     public BannerList? Data { get; set; }
+
+    [Parameter]
+    public EventCallback<int> WatchNow { get; set; }
     
     private int Id;
     private BannerTime Time = BannerTime.first;
@@ -70,5 +73,10 @@
     {
         Id = id;
         Time = BannerTime.second;
+    }
+
+    protected async Task WatchNowClick(int id)
+    {
+        await WatchNow.InvokeAsync(id);
     }
 }

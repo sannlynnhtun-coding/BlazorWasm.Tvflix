@@ -1,0 +1,37 @@
+﻿@inject WeeklyTrendingMovieListService WeeklyTrendingMovieListService
+@if (_weeklyTrendingMovieList is not null)
+{
+    <section class="movie-list" aria-label="Weekly Trending Movies">
+        <div class="title-wrapper">
+            <h3 class="title-large">Weekly Trending Movies</h3>
+        </div>
+
+        <div class="slider-list">
+            <div class="slider-inner">
+                @foreach (var item in _weeklyTrendingMovieList.results)
+                {
+                    string imgUrl = ImageBaseUrl.url + "w342/" + item.backdrop_path;
+                    <div class="movie-card">
+                        <figure class="poster-box card-banner">
+                            <img src="@imgUrl" alt="@item.title" class="img-cover" loading="lazy">
+                        </figure>
+
+                        <h4 class="title">@item.title</h4>
+
+                        <div class="meta-list">
+                            <div class="meta-item">
+                                <img src="assets/images/star.png" width="20" height="20" loading="lazy" alt="rating">
+
+                                <span class="span">@item.vote_average.ToString("N1")</span>
+                            </div>
+
+                            <div class="card-badge">@item.release_date.Split('-')[0]</div>
+                        </div>
+
+                        <a href="#" class="card-btn" title="@item.title" onclick="getMovieDetail(@item.id)"></a>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}

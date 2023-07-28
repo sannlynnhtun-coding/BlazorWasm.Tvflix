@@ -11,5 +11,7 @@ builder.Services.AddScoped(sp => new HttpClient());
 builder.Services.AddScoped<MovieListService>();
 builder.Services.AddScoped<BannerListService>();
 builder.Services.AddScoped<TopRatedMovieListService>();
+builder.Services.AddScoped<WeeklyTrendingMovieListService>();
+builder.Services.AddScoped<MovieDetailService>();
 
 await builder.Build().RunAsync();

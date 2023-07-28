@@ -1,4 +1,6 @@
-﻿namespace BlazorWasm.Tvflix.Services
+﻿using Newtonsoft.Json;
+
+namespace BlazorWasm.Tvflix.Services
 {
     public class BannerResult
     {
@@ -16,6 +18,10 @@
         public bool video { get; set; }
         public double vote_average { get; set; }
         public int vote_count { get; set; }
+        [JsonIgnore] 
+        public string genre_id { get; set; }
+        [JsonIgnore]
+        public string genre_name { get; set; }
     }
 
     public class BannerList
