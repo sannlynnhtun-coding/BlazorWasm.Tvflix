@@ -19,5 +19,37 @@
             }
             return null;
         }
+
+        public async Task<BannerList?> SetGenre(BannerList? bannerList, MovieList? movieList)
+        {
+            foreach (var banner in bannerList.results)
+            {
+                banner.genre_name = GetString(banner.genre_ids, movieList.genres);
+            }
+            return bannerList;
+        }
+
+        public string GetString(List<int> genre_ids , Genre[] genres)
+        {
+            string MoveCategorie = string.Empty;
+            int counter = 1;
+            foreach(var banner in genre_ids)
+            {
+                foreach (var item in genres)
+                {
+                    if(banner == item.id && counter < genre_ids.Count)
+                    {
+                        MoveCategorie += $"{item.name},";
+                        counter++;
+                    }
+                    else if (banner == item.id && counter == genre_ids.Count)
+                    {
+                        MoveCategorie += $"{item.name}";
+                        counter++;
+                    }
+                }
+            }
+            return MoveCategorie;
+        }
     }
 }
