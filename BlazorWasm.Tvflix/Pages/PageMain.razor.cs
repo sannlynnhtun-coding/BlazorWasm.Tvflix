@@ -32,6 +32,7 @@ namespace BlazorWasm.Tvflix.Pages
         private void Default()
         {
             _movieDetail = null;
+            _movieCategoryList = null;
             StateHasChanged();
         }
     }
