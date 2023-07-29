@@ -6,8 +6,8 @@
 @inject MovieCategoryListService MovieCategoryListService
 
 <!--
-   - #HEADER
- -->
+- #HEADER
+-->
 
 <header class="header">
 
@@ -40,7 +40,7 @@
 
 <main>
     <!--
-      - #SIDEBAR
+    - #SIDEBAR
     -->
 
     <nav class="sidebar" sidebar>
@@ -53,7 +53,7 @@
                     foreach (var item in _movieList.genres)
                     {
                         <a href="javascript:void(0);" class="sidebar-link" menu-close=""
-                        @onclick="() => GetMovieList(item)">
+                           @onclick="() => GetMovieList(item)">
                             @item.name
                         </a>
                     }
@@ -61,17 +61,17 @@
 
             </div>
 
-            <div class="sidebar-list">
-
-                <p class="title">Language</p>
-
-                <a href="./movie-list.html" menu-close="" class="sidebar-link" onclick="getMovieList(&quot;with_original_language=en&quot;, &quot;English&quot;)">English</a>
-
-                <a href="./movie-list.html" menu-close="" class="sidebar-link" onclick="getMovieList(&quot;with_original_language=hi&quot;, &quot;Hindi&quot;)">Hindi</a>
-
-                <a href="./movie-list.html" menu-close="" class="sidebar-link" onclick="getMovieList(&quot;with_original_language=bn&quot;, &quot;Bengali&quot;)">Bengali</a>
-
-            </div>
+            @* <div class="sidebar-list"> *@
+            @* *@
+            @*     <p class="title">Language</p> *@
+            @* *@
+            @*     <a href="./movie-list.html" menu-close="" class="sidebar-link" onclick="getMovieList(&quot;with_original_language=en&quot;, &quot;English&quot;)">English</a> *@
+            @* *@
+            @*     <a href="./movie-list.html" menu-close="" class="sidebar-link" onclick="getMovieList(&quot;with_original_language=hi&quot;, &quot;Hindi&quot;)">Hindi</a> *@
+            @* *@
+            @*     <a href="./movie-list.html" menu-close="" class="sidebar-link" onclick="getMovieList(&quot;with_original_language=bn&quot;, &quot;Bengali&quot;)">Bengali</a> *@
+            @* *@
+            @* </div> *@
 
             <div class="sidebar-footer">
                 <p class="copyright">
@@ -84,26 +84,26 @@
     </nav>
     <div class="overlay" overlay menu-toggler></div>
 
-    <article class="container" page-content>
-        @if (_movieCategoryList is null)
-        {
-            @if (_movieDetail is null)
+    @if (_movieDetail is null)
+    {
+        <article class="container" page-content>
+            @if (_isSearchCategory)
             {
-                <PageBanner WatchNow=WatchNowClick Data="_bannerList"></PageBanner>
+                <PageMovieCategory Data="_movieCategoryList" WatchNow="WatchNowClick"/>
             }
             else
             {
-                <PageMovieDetail Data="_movieDetail"></PageMovieDetail>
+                <PageBanner watchNow=WatchNowClick Data="_bannerList"/>
+                <PageWeeklyTrendingMovieList watchNow="WatchNowClick" />
+                <TopRatedMovies watchNow="WatchNowClick"/>
+                <UpComingMovies watchNow="WatchNowClick" />
             }
-
-            <PageWeeklyTrendingMovieList></PageWeeklyTrendingMovieList>
-            <TopRatedMovies></TopRatedMovies>
-            <UpComingMovies></UpComingMovies>
-        }
-        else
-        {
-            <PageMovieCategory Data="_movieCategoryList" WatchNow=WatchNowClick></PageMovieCategory>
-        }
-    </article>
-
+        </article>
+    }
+    else
+    {
+        <article class="container" page-content>
+            <PageMovieDetail Data="_movieDetail"/>
+        </article>
+    }
 </main>

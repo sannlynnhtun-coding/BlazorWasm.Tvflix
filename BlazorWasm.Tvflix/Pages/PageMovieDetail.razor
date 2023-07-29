@@ -1,104 +1,122 @@
-﻿@if (Data is not null)
+﻿@inject RecommendationsService recommendationsService
+@inject MovieDetailService movieDetailService
+@if (Data is not null)
 {
     string backdrop_path = $"https://image.tmdb.org/t/p/original{Data.backdrop_path}";
     string poster_path = $"https://image.tmdb.org/t/p/w1280{Data.poster_path}";
-    <article class="container" page-content="">
-        <div class="movie-detail">
-            <div class="backdrop-image" style="background-image: url('@backdrop_path')"></div>
+    <div class="movie-detail">
+        <div class="backdrop-image" style="background-image: url('@backdrop_path')"></div>
 
-            <figure class="poster-box movie-poster">
-                <img src="@poster_path" alt="@Data.title poster" class="img-cover">
-            </figure>
+        <figure class="poster-box movie-poster">
+            <img src="@poster_path" alt="@Data.title poster" class="img-cover">
+        </figure>
 
-            <div class="detail-box">
+        <div class="detail-box">
 
-                <div class="detail-content">
-                    <h1 class="heading">@Data.title</h1>
+            <div class="detail-content">
+                <h1 class="heading">@Data.title</h1>
 
-                    <div class="meta-list">
+                <div class="meta-list">
 
-                        <div class="meta-item">
-                            <img src="./assets/images/star.png" width="20" height="20" alt="rating">
+                    <div class="meta-item">
+                        <img src="./assets/images/star.png" width="20" height="20" alt="rating">
 
-                            <span class="span">@Data.vote_average.ToString("0.#")</span>
-                        </div>
-
-                        <div class="separator"></div>
-
-                        <div class="meta-item">@Data.runtime</div>
-
-                        <div class="separator"></div>
-
-                        <div class="meta-item">@Data.release_date.Split("-")[0] ?? "Not Released"</div>
-
-                        <div class="meta-item card-badge">@(Data.releases.countries.FirstOrDefault() == null ? "N/A" : Data.releases.countries.FirstOrDefault().certification)</div>
-
+                        <span class="span">@Data.vote_average.ToString("0.#")</span>
                     </div>
 
-                    <p class="genre">@(string.Join(',', Data.genres.Select(x => x.name)))</p>
+                    <div class="separator"></div>
 
-                    <p class="overview">
-                        @Data.overview
-                    </p>
+                    <div class="meta-item">@Data.runtime</div>
 
-                    <ul class="detail-list">
+                    <div class="separator"></div>
 
-                        <div class="list-item">
-                            <p class="list-name">Starring</p>
+                    <div class="meta-item">@Data.release_date.Split("-")[0] ?? "Not Released"</div>
 
-                            <p>
-                                @(string.Join(',', Data.casts.cast.Select(x => x.name)))
-                            </p>
-                        </div>
-
-                        <div class="list-item">
-                            <p class="list-name">Directed By</p>
-
-                            <p>
-
-                                @(string.Join(',', Data.casts.crew.Select(x => x.name)))
-                            </p>
-                        </div>
-
-                    </ul>
+                    <div class="meta-item card-badge">@(Data.releases.countries.FirstOrDefault() == null ? "N/A" : Data.releases.countries.FirstOrDefault().certification)</div>
 
                 </div>
 
-                <div class="title-wrapper">
-                    <h3 class="title-large">Trailers and Clips</h3>
-                </div>
+                <p class="genre">@(string.Join(',', Data.genres.Select(x => x.name)))</p>
 
-                <div class="slider-list">
-                    <div class="slider-inner">
-                        @foreach (var item in Data.videos.results)
-                        {
-                            string url = $"https://www.youtube.com/embed/{item.key}?&theme=dark&color=white&rel=0";
-                            <div class="video-card">
-                                <iframe width="500" height="294" src="@url"
-                                        frameborder="0" allowfullscreen="1" title="@item.name" class="img-cover" loading="lazy"></iframe>
-                            </div>
-                        }
+                <p class="overview">
+                    @Data.overview
+                </p>
+
+                <ul class="detail-list">
+
+                    <div class="list-item">
+                        <p class="list-name">Starring</p>
+
+                        <p>
+                            @(string.Join(',', Data.casts.cast.Select(x => x.name)))
+                        </p>
                     </div>
-                </div>
+
+                    <div class="list-item">
+                        <p class="list-name">Directed By</p>
+
+                        <p>
+
+                            @(string.Join(',', Data.casts.crew.Select(x => x.name)))
+                        </p>
+                    </div>
+
+                </ul>
 
             </div>
-        </div><section class="movie-list" aria-label="You May Also Like">
+
+            <div class="title-wrapper">
+                <h3 class="title-large">Trailers and Clips</h3>
+            </div>
+
+            <div class="slider-list">
+                <div class="slider-inner">
+                    @foreach (var item in Data.videos.results)
+                    {
+                        string url = $"https://www.youtube.com/embed/{item.key}?&theme=dark&color=white&rel=0";
+                        <div class="video-card">
+                            <iframe width="500" height="294" src="@url"
+                                    frameborder="0" allowfullscreen="1" title="@item.name" class="img-cover" loading="lazy">
+                            </iframe>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @if (_recommendations is not null)
+    {
+        <section class="movie-list" aria-label="You May Also Like">
             <div class="title-wrapper">
                 <h3 class="title-large">You May Also Like</h3>
             </div>
 
             <div class="slider-list">
                 <div class="slider-inner">
-                    
+                    @foreach (var item in _recommendations.results)
+                    {
+                        <PageMovieCard item="item"/>
+                    }
                 </div>
             </div>
         </section>
-    </article>
+    }
 }
 
 @code {
 
     [Parameter]
     public MovieDetail? Data { get; set; }
+
+    private Recommendations? _recommendations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Data != null)
+        {
+            _recommendations = await recommendationsService.GetAsync(Data.id, "3fd67b0a75a2861ff71511c8065512a7");
+        }
+    }
 
 }

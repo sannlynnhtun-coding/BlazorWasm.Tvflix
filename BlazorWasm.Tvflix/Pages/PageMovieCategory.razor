@@ -1,8 +1,9 @@
-﻿@if (Data is not null)
+﻿@inject MovieCategoryListService MovieCategoryListService
+@if (Data is not null)
 {
-    <section class="movie-list genre-list" aria-label="@Data.category_title Movies">
+    <section class="movie-list genre-list" aria-label="@Data.genre_name Movies">
         <div class="title-wrapper">
-            <h1 class="heading">All @Data.category_title Movies</h1>
+            <h1 class="heading">All @Data.genre_name Movies</h1>
         </div>
         <div class="grid-list">
             @foreach (var item in Data.results)
@@ -22,27 +23,56 @@
                             <span class="span">@item.vote_average</span>
                         </div>
 
-                        <div class="card-badge">@item.release_date.Split('-')[0]</div>
+                        <div class="card-badge">
+                            @(string.IsNullOrWhiteSpace(item.release_date) ? "N/A" : item.release_date.Split('-')[0])
+                        </div>
                     </div>
 
-                    <a href="javascript:void(0);" class="card-btn" title="Barbie" @onclick="()=> WatchNowClick(item.id)"></a>
+                    <a href="javascript:void(0);" class="card-btn" title="Barbie" @onclick="() => WatchNowClick(item.id)"></a>
                 </div>
             }
         </div>
-        <button class="btn load-more" load-more="">Load More</button>
+        <div class="d-flex flex-column align-center">
+            <MudPagination SelectedChanged="PageChanged"
+                           Count="Data.total_pages"
+                           Class="pa-4 mt-5"/>
+        </div>
+        @* <button class="btn load-more" load-more="">Load More</button> *@
     </section>
 }
 
 
 @code {
+
     [Parameter]
     public MovieCategoryList? Data { get; set; }
 
     [Parameter]
     public EventCallback<int> WatchNow { get; set; }
 
+    private int _genreId;
+
+    protected override void OnInitialized()
+    {
+        _genreId = Data.genre_id;
+    }
+
     private async Task WatchNowClick(int id)
     {
         await WatchNow.InvokeAsync(id);
     }
+
+    private async Task PageChanged(int i)
+    {
+        if (Data != null)
+        {
+            var item = await MovieCategoryListService.GetAsync(ApiKey.Value, _genreId, i);
+            if (item is not null)
+            {
+                Data = item;
+                StateHasChanged();
+            }
+        }
+    }
+
 }

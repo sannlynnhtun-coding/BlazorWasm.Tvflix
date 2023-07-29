@@ -11,9 +11,9 @@ namespace BlazorWasm.Tvflix.Services
             _httpClient = httpClient;
         }
 
-        public async Task<MovieCategoryList?> GetAsync(string key, int genre)
+        public async Task<MovieCategoryList?> GetAsync(string key, int genre, int pageNo = 1)
         {
-            string url = string.Format(ApiUrl.MoviveCategoryList, key, genre);
+            string url = string.Format(ApiUrl.MovieCategoryList, key, pageNo, genre);
             var response = await _httpClient.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {

@@ -4,34 +4,43 @@ namespace BlazorWasm.Tvflix.Pages
 {
     public partial class PageMain
     {
-        private readonly string _key = "3fd67b0a75a2861ff71511c8065512a7";
         private MovieList? _movieList;
         private BannerList? _bannerList;
         private MovieDetail? _movieDetail;
         private MovieCategoryList? _movieCategoryList;
+        private bool _isSearchCategory;
 
         protected override async Task OnInitializedAsync()
         {
-            _movieList = await MoiveListService.GetAsync(_key);
-            _bannerList = await BannerListService.GetAsync(_key);
-            _bannerList = await BannerListService.SetGenre(_bannerList, _movieList);
+            await Default();
         }
 
         private async Task GetMovieList(Genre genre)
         {
-            _movieCategoryList = await MovieCategoryListService.GetAsync(_key, genre.id);
-            _movieCategoryList.category_title = genre.name;
+            _movieCategoryList = await MovieCategoryListService.GetAsync(ApiKey.Value, genre.id);
+            if (_movieCategoryList != null)
+            {
+                _movieCategoryList.genre_id = genre.id;
+                _movieCategoryList.genre_name = genre.name;
+            }
+
+            _movieDetail = null;
+            _isSearchCategory = true;
         }
 
         private async Task WatchNowClick(int id)
         {
-            _movieDetail = await MovieDetailService.GetAsync(id, _key);
+            _movieDetail = await MovieDetailService.GetAsync(id, ApiKey.Value);
             _movieCategoryList = null;
             StateHasChanged();
         }
 
-        private void Default()
+        private async Task Default()
         {
+            _isSearchCategory = false;
+            _movieList = await MoiveListService.GetAsync(ApiKey.Value);
+            _bannerList = await BannerListService.GetAsync(ApiKey.Value);
+            _bannerList = await BannerListService.SetGenre(_bannerList, _movieList);
             _movieDetail = null;
             _movieCategoryList = null;
             StateHasChanged();

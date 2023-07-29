@@ -11,28 +11,21 @@
             <div class="slider-inner">
                 @foreach (var item in _upComingMovieList.results)
                 {
-                    string imgUrl = ImageBaseUrl.url + "w342/" + item.backdrop_path;
-                    <div class="movie-card">
-                        <figure class="poster-box card-banner">
-                            <img src="@imgUrl" alt="@item.original_title" class="img-cover" loading="lazy">
-                        </figure>
-
-                        <h4 class="title">@item.original_title</h4>
-
-                        <div class="meta-list">
-                            <div class="meta-item">
-                                <img src="assets/images/star.png" width="20" height="20" loading="lazy" alt="rating">
-
-                                <span class="span">@item.vote_average.ToString("N1")</span>
-                            </div>
-
-                            <div class="card-badge">@item.release_date.Split('-')[0]</div>
-                        </div>
-
-                        <a href="#" class="card-btn" title="@item.original_title" onclick="getMovieDetail(@item.id)"></a>
-                    </div>
+                    <PageMovieCard watchNow="WatchNowClick" item="item"/>
                 }
             </div>
         </div>
     </section>
+}
+
+@code{
+
+    [Parameter]
+    public EventCallback<int> watchNow { get; set; }
+
+    private async Task WatchNowClick(int id)
+    {
+        await watchNow.InvokeAsync(id);
+    }
+
 }
