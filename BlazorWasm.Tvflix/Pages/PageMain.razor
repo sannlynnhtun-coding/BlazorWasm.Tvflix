@@ -3,6 +3,7 @@
 @inject BannerListService BannerListService
 @inject WeeklyTrendingMovieListService WeeklyTrendingListService
 @inject MovieDetailService MovieDetailService
+@inject MovieCategoryListService MovieCategoryListService
 
 <!--
    - #HEADER
@@ -84,16 +85,24 @@
     <div class="overlay" overlay menu-toggler></div>
 
     <article class="container" page-content>
-        @if (_movieDetail is null)
+        @if (_movieCategoryList is null)
         {
-            <PageBanner WatchNow=WatchNowClick Data="_bannerList"></PageBanner>
+            @if (_movieDetail is null)
+            {
+                <PageBanner WatchNow=WatchNowClick Data="_bannerList"></PageBanner>
+            }
+            else
+            {
+                <PageMovieDetail Data="_movieDetail"></PageMovieDetail>
+            }
+
+            <PageWeeklyTrendingMovieList></PageWeeklyTrendingMovieList>
+            <TopRatedMovies></TopRatedMovies>
         }
         else
         {
-            <PageMovieDetail Data="_movieDetail"></PageMovieDetail>
+            <PageMovieCategory Data="_movieCategoryList" WatchNow=WatchNowClick></PageMovieCategory>
         }
-
-        <PageWeeklyTrendingMovieList></PageWeeklyTrendingMovieList>
-		<TopRatedMovies></TopRatedMovies>
     </article>
+
 </main>

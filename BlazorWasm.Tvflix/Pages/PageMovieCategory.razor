@@ -1,0 +1,48 @@
+﻿@if (Data is not null)
+{
+    <section class="movie-list genre-list" aria-label="@Data.category_title Movies">
+        <div class="title-wrapper">
+            <h1 class="heading">All @Data.category_title Movies</h1>
+        </div>
+        <div class="grid-list">
+            @foreach (var item in Data.results)
+            {
+                string url = $"https://image.tmdb.org/t/p/w342{item.poster_path}";
+                <div class="movie-card">
+                    <figure class="poster-box card-banner">
+                        <img src="@url" alt="@item.title" class="img-cover" loading="lazy">
+                    </figure>
+
+                    <h4 class="title">@item.original_title</h4>
+
+                    <div class="meta-list">
+                        <div class="meta-item">
+                            <img src="assets/images/star.png" width="20" height="20" loading="lazy" alt="rating">
+
+                            <span class="span">@item.vote_average</span>
+                        </div>
+
+                        <div class="card-badge">@item.release_date.Split('-')[0]</div>
+                    </div>
+
+                    <a href="javascript:void(0);" class="card-btn" title="Barbie" @onclick="()=> WatchNowClick(item.id)"></a>
+                </div>
+            }
+        </div>
+        <button class="btn load-more" load-more="">Load More</button>
+    </section>
+}
+
+
+@code {
+    [Parameter]
+    public MovieCategoryList? Data { get; set; }
+
+    [Parameter]
+    public EventCallback<int> WatchNow { get; set; }
+
+    private async Task WatchNowClick(int id)
+    {
+        await WatchNow.InvokeAsync(id);
+    }
+}

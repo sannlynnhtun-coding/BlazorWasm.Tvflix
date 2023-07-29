@@ -8,6 +8,7 @@ namespace BlazorWasm.Tvflix.Pages
         private MovieList? _movieList;
         private BannerList? _bannerList;
         private MovieDetail? _movieDetail;
+        private MovieCategoryList? _movieCategoryList;
 
         protected override async Task OnInitializedAsync()
         {
@@ -16,9 +17,10 @@ namespace BlazorWasm.Tvflix.Pages
             _bannerList = await BannerListService.SetGenre(_bannerList, _movieList);
         }
 
-        private void GetMovieList(Genre genre)
+        private async Task GetMovieList(Genre genre)
         {
-            string a = genre.name;
+            _movieCategoryList = await MovieCategoryListService.GetAsync(_key, genre.id);
+            _movieCategoryList.category_title = genre.name;
         }
 
         private async Task WatchNowClick(int id)

@@ -13,5 +13,6 @@ builder.Services.AddScoped<BannerListService>();
 builder.Services.AddScoped<TopRatedMovieListService>();
 builder.Services.AddScoped<WeeklyTrendingMovieListService>();
 builder.Services.AddScoped<MovieDetailService>();
+builder.Services.AddScoped<MovieCategoryListService>();
 
 await builder.Build().RunAsync();
