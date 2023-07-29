@@ -26,6 +26,7 @@ namespace BlazorWasm.Tvflix.Pages
         private async Task WatchNowClick(int id)
         {
             _movieDetail = await MovieDetailService.GetAsync(id, _key);
+            _movieCategoryList = null;
             StateHasChanged();
         }
 
