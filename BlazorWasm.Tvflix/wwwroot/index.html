@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <base hrefs="/" />
+    <base href="/" />
 
     <!--
       - primary meta tags
@@ -13,6 +13,14 @@
     <title>Tvflix</title>
     <meta name="title" content="Tvflix">
     <meta name="description" content="Tvflix is a popular movie app made by codewithsadee.">
+
+    <meta property="og:title" content="Blazor WASM - Tvflix">
+    <meta name="twitter:title" content="Blazor WASM - Tvflix">
+    <meta name="description" content="Blazor WASM - Tvflix">
+    <meta property="og:description" content="Blazor WASM - Tvflix">
+    <meta name="twitter:description" content="Blazor WASM - Tvflix">
+    <meta property="og:image" content="https://blazor-wasm-tvflix.netlify.app/favicon.png">
+    <meta name="twitter:image" content="https://blazor-wasm-tvflix.netlify.app/favicon.png">
 
     <!--
       - favicon
@@ -26,6 +34,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
 
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    
     <!--
       - custom css link
     -->
@@ -56,6 +66,7 @@
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 
 </body>
 

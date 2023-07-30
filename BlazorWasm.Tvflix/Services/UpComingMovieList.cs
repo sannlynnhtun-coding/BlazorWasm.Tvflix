@@ -1,14 +1,21 @@
 ﻿namespace BlazorWasm.Tvflix.Services;
 
-public class TopRatedMovieList
+public class UpComingMovieList
 {
+    public Dates dates { get; set; }
     public int page { get; set; }
     public MovieResult[] results { get; set; }
     public int total_pages { get; set; }
     public int total_results { get; set; }
 }
 
-// public class MovieResults
+public class Dates
+{
+    public string maximum { get; set; }
+    public string minimum { get; set; }
+}
+
+// public class UpcomingResults
 // {
 //     public bool adult { get; set; }
 //     public string backdrop_path { get; set; }

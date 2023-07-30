@@ -1,0 +1,44 @@
+﻿@if (item is not null)
+{
+    string imgUrl = $"{ImageBaseUrl.url}w1280/{item.backdrop_path}";
+    <div class="movie-card">
+        <figure class="poster-box card-banner">
+            <img src="@imgUrl" alt="@item.title" class="img-cover" loading="lazy">
+        </figure>
+
+        <h4 class="title">@item.title</h4>
+
+        <div class="meta-list">
+            <div class="meta-item">
+                <img src="assets/images/star.png" width="20" height="20" loading="lazy" alt="rating">
+
+                <span class="span">@item.vote_average.ToString("N1")</span>
+            </div>
+
+            <div class="card-badge">@item.release_date.Split('-')[0]</div>
+        </div>
+
+        <a href="javascript:void(0);" class="card-btn" title="@item.title"
+           @onclick="() => WatchNowClick(item.id)"></a>
+        @* @{ *@
+        @*     string url = $"detail/{item.id}"; *@
+        @* } *@
+        @* <NavLink href="@url" class="card-btn" title="@item.title"> *@
+        @* *@
+        @* </NavLink> *@
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public MovieResult? item { get; set; }
+    
+    [Parameter]
+    public EventCallback<int> watchNow { get; set; }
+
+    private async Task WatchNowClick(int id)
+    {
+        await watchNow.InvokeAsync(id);
+    }
+}

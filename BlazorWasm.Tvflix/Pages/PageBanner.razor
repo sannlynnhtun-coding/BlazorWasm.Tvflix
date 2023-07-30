@@ -1,88 +1,99 @@
-﻿@if (Data is not null)
+﻿@inject MovieDetailService MovieDetailService
+@if (Data is not null)
 {
-    <section class="banner" aria-label="Popular Movies">
-        <div class="banner-slider">
-            @foreach (var item in Data.results)
-            {
-                string imageUrl = ImageBaseUrl.url + "w1280" + item.backdrop_path;
-                <div class="slider-item
-                @(Id == item.id || Time == BannerTime.first ? "active": "")" slider-item="">
-                    @{
-                        Time = BannerTime.second;
-                    }
-                    <img src="@imageUrl" alt="Barbie" class="img-cover" loading="eager">
-
-                    <div class="banner-content">
-
-                        <h2 class="heading">@item.title</h2>
-
-                        <div class="meta-list">
-                            <div class="meta-item">@(item.release_date ??= "Not Released")</div>
-
-                            <div class="meta-item card-badge">@item.vote_average</div>
-                        </div>
-
-                        <p class="genre">@item.genre_name</p>
-
-                        <p class="banner-text">@item.overview</p>
-
-                        <a href="javascript:void(0);" class="btn" @onclick="() => WatchNowClick(item.id)">
-                            <img src="assets/images/play_circle.png" width="24" height="24" aria-hidden="true" alt="play circle">
-
-                            <span class="span">Watch Now</span>
-                        </a>
-
-                    </div>
-                </div>
-            }
-        </div>
-        <div class="slider-control">
-            <div class="control-inner">
-                @{
-                    Time = BannerTime.first;
-                }
+    @if (_isWatchNow)
+    {
+        <PageMovieDetail Data="_movieDetail"></PageMovieDetail>
+    }
+    else
+    {
+        <section class="banner" aria-label="Popular Movies">
+            <div class="banner-slider">
                 @foreach (var item in Data.results)
                 {
-                    string imageUrl = ImageBaseUrl.url + "w1280" + item.poster_path;
-                    <button class="poster-box slider-item
-                    @(Id == item.id || Time == BannerTime.first ? "active": "")"
-                            slider-control="0"
-                    @onclick="()=>Active(item.id)">
+                    string imageUrl = ImageBaseUrl.url + "w1280" + item.backdrop_path;
+                    <div class="slider-item @(_id == item.id || _time == BannerTime.first ? "active" : "")" slider-item="">
                         @{
-                            Time = BannerTime.second;
+                            _time = BannerTime.second;
                         }
-                        <img src="@imageUrl" alt="Slide to @item.original_title" loading="lazy" draggable="false" class="img-cover">
-                    </button>
+                        <img src="@imageUrl" alt="Barbie" class="img-cover" loading="eager">
+
+                        <div class="banner-content">
+
+                            <h2 class="heading">@item.title</h2>
+
+                            <div class="meta-list">
+                                <div class="meta-item">@(item.release_date ?? "Not Released")</div>
+
+                                <div class="meta-item card-badge">@item.vote_average</div>
+                            </div>
+
+                            <p class="genre">@item.genre_name</p>
+
+                            <p class="banner-text">@item.overview</p>
+
+                            <a href="javascript:void(0);" class="btn" @onclick="() => WatchNowClick(item.id)">
+                                <img src="assets/images/play_circle.png" width="24" height="24" aria-hidden="true" alt="play circle">
+
+                                <span class="span">Watch Now</span>
+                            </a>
+
+                        </div>
+                    </div>
                 }
             </div>
-        </div>
-    </section>
+            <div class="slider-control">
+                <div class="control-inner">
+                    @{
+                        _time = BannerTime.first;
+                    }
+                    @foreach (var item in Data.results)
+                    {
+                        string imageUrl = ImageBaseUrl.url + "w1280" + item.poster_path;
+                        <button class="poster-box slider-item @(_id == item.id || _time == BannerTime.first ? "active" : "")"
+                                slider-control="0"
+                                @onclick="() => Active(item.id)">
+                            @{
+                                _time = BannerTime.second;
+                            }
+                            <img src="@imageUrl" alt="Slide to @item.original_title" loading="lazy" draggable="false" class="img-cover">
+                        </button>
+                    }
+                </div>
+            </div>
+        </section>
+    }
 }
 
 @code {
+
     [Parameter]
     public BannerList? Data { get; set; }
 
-    //[Parameter]
-    //public EventCallback<int> WatchNow { get; set; }
+    [Parameter]
+    public EventCallback<int> watchNow { get; set; }
 
-    private int Id;
-    private BannerTime Time = BannerTime.first;
+    private bool _isWatchNow;
+    private MovieDetail? _movieDetail;
+    private int _id;
+    private BannerTime _time = BannerTime.first;
+
+    protected override void OnParametersSet()
+    {
+        if (Data != null) Active(Data.results[0].id);
+    }
 
     void Active(int id)
     {
-        Id = id;
-        Time = BannerTime.second;
+        _id = id;
+        _time = BannerTime.second;
     }
 
-    protected async Task WatchNowClick(int id)
+    private async Task WatchNowClick(int id)
     {
-        //await WatchNow.InvokeAsync(id);
-        StateContainer.Property = id;
+        await watchNow.InvokeAsync(id);
+    // _isWatchNow = true;
+    // _movieDetail = await MovieDetailService.GetAsync(id, ApiKey.Value);
     }
 
-    public void Dispose()
-    {
-        StateContainer.OnChange -= StateHasChanged;
-    }
 }

@@ -22,12 +22,14 @@ namespace BlazorWasm.Tvflix.Services
 
     public class MovieCategoryList
     {
+        [JsonIgnore]
+        public int genre_id { get; set; }
+        [JsonIgnore]
+        public string? genre_name { get; set; }
         public int page { get; set; }
         public List<MovieCategory> results { get; set; }
         public int total_pages { get; set; }
         public int total_results { get; set; }
-        [JsonIgnore]
-        public string category_title { get; set; }
     }
 
 

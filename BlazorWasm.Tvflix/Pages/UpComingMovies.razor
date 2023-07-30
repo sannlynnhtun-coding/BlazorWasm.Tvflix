@@ -1,14 +1,15 @@
-﻿@inject WeeklyTrendingMovieListService WeeklyTrendingMovieListService
-@if (_weeklyTrendingMovieList is not null)
+﻿@inject UpComingMovieListService UpComingMovieListService
+
+@if (_upComingMovieList is not null)
 {
-    <section class="movie-list" aria-label="Weekly Trending Movies">
+    <section class="movie-list" aria-label="UpComing Movies">
         <div class="title-wrapper">
-            <h3 class="title-large">Weekly Trending Movies</h3>
+            <h3 class="title-large">UpComing Movies</h3>
         </div>
 
         <div class="slider-list">
             <div class="slider-inner">
-                @foreach (var item in _weeklyTrendingMovieList.results)
+                @foreach (var item in _upComingMovieList.results)
                 {
                     <PageMovieCard watchNow="WatchNowClick" item="item"/>
                 }
