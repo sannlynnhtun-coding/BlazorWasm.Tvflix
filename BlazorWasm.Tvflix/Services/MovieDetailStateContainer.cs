@@ -2,11 +2,11 @@
 {
     public class MovieDetailStateContainer
     {
-        private int? Id;
+        private string? Id;
 
-        public int Property
+        public string Property
         {
-            get => Id ?? 0;
+            get => Id ?? string.Empty;
             set
             {
                 Id = value;

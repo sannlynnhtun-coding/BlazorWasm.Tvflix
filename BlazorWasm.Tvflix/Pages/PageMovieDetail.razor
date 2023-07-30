@@ -1,5 +1,7 @@
-﻿@inject RecommendationsService recommendationsService
+﻿@page "/detail"
+@inject RecommendationsService recommendationsService
 @inject MovieDetailService movieDetailService
+@inject MovieDetailStateContainer StateContainer
 @if (Data is not null)
 {
     string backdrop_path = $"https://image.tmdb.org/t/p/original{Data.backdrop_path}";
@@ -105,21 +107,23 @@
 }
 
 @code {
-    //[Parameter]
-    //public MovieDetail? Data { get; set; }
-    public MovieDetail? Data { get; set; } = new();
-
     [Parameter]
     public MovieDetail? Data { get; set; }
 
+    //public MovieDetail? Data { get; set; }
+
     private Recommendations? _recommendations;
+    private int Id = 0;
 
     protected override async Task OnInitializedAsync()
     {
+        //Id = Convert.ToInt32(StateContainer.Property);
+        //Data = await movieDetailService.GetAsync(Id, ApiKey.Value);
         if (Data != null)
         {
             _recommendations = await recommendationsService.GetAsync(Data.id, "3fd67b0a75a2861ff71511c8065512a7");
         }
+        //StateContainer.OnChange += StateHasChanged;
     }
 
 }

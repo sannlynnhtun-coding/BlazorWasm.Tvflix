@@ -3,7 +3,8 @@
 @inject BannerListService BannerListService
 @inject WeeklyTrendingMovieListService WeeklyTrendingListService
 @inject MovieCategoryListService MovieCategoryListService
-
+@inject MovieDetailService MovieDetailService
+@inject MovieDetailStateContainer StateContainer
 <!--
 - #HEADER
 -->
@@ -84,6 +85,7 @@
     <div class="overlay" overlay menu-toggler></div>
 
     @if (_movieDetail is null)
+    @*@if ( string.IsNullOrWhiteSpace(StateContainer.Property ))*@
     {
         <article class="container" page-content>
             @if (_isSearchCategory)

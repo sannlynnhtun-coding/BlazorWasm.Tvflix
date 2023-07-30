@@ -17,5 +17,6 @@ builder.Services.AddScoped<MovieDetailService>();
 builder.Services.AddScoped<MovieCategoryListService>();
 builder.Services.AddScoped<UpComingMovieListService>();
 builder.Services.AddScoped<RecommendationsService>();
+builder.Services.AddScoped<MovieDetailStateContainer>();
 
 await builder.Build().RunAsync();

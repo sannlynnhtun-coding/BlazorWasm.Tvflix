@@ -1,4 +1,6 @@
-﻿@inject MovieDetailService MovieDetailService
+﻿@implements IDisposable
+@inject MovieDetailService MovieDetailService
+@inject MovieDetailStateContainer StateContainer
 @if (Data is not null)
 {
     @if (_isWatchNow)
@@ -81,6 +83,7 @@
     protected override void OnParametersSet()
     {
         if (Data != null) Active(Data.results[0].id);
+        //StateContainer.OnChange += StateHasChanged;
     }
 
     void Active(int id)
@@ -91,9 +94,14 @@
 
     private async Task WatchNowClick(int id)
     {
-        await watchNow.InvokeAsync(id);
+        //StateContainer.Property = id.ToString();
+        //Nav.NavigateTo("/detail");
+          await watchNow.InvokeAsync(id);
     // _isWatchNow = true;
     // _movieDetail = await MovieDetailService.GetAsync(id, ApiKey.Value);
     }
-
+    //public void Dispose()
+    //{
+    //    StateContainer.OnChange -= StateHasChanged;
+    //}
 }
