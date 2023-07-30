@@ -34,7 +34,7 @@
         <img src="assets/images/search.png" width="24" height="24" alt="open search box">
     </button>
 
-    <button class="menu-btn" menu-btn menu-toggler>
+    <button class="menu-btn @_sideBar.ToString()" menu-btn menu-toggler @onclick="SideBar">
         <img src="assets/images/menu.png" width="24" height="24" alt="open menu" class="menu">
         <img src="assets/images/menu-close.png" width="24" height="24" alt="close menu" class="close">
     </button>
@@ -46,7 +46,7 @@
     - #SIDEBAR
     -->
 
-    <nav class="sidebar" sidebar>
+    <nav class="sidebar @_sideBar.ToString()" sidebar>
         <div class="sidebar-inner">
             <div class="sidebar-list">
 
@@ -85,7 +85,7 @@
             </div>
         </div>
     </nav>
-    <div class="overlay" overlay menu-toggler></div>
+    <div class="overlay @_sideBar.ToString()" overlay menu-toggler></div>
 
     @* @if (_movieDetail is null) *@
     @if ( StateContainer.Id == 0)

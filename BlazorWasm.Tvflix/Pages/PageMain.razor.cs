@@ -9,6 +9,7 @@ namespace BlazorWasm.Tvflix.Pages
         private BannerList? _bannerList;
         private MovieDetail? _movieDetail;
         private MovieCategoryList? _movieCategoryList;
+        private EnumSideBar? _sideBar = EnumSideBar.inactive;
         private string? _id;
         private string? _search;
         private bool _isSearchCategory;
@@ -68,6 +69,12 @@ namespace BlazorWasm.Tvflix.Pages
             _movieDetail = null;
             _isSearchCategory = true;
             StateHasChanged();
+        }
+
+        void SideBar()
+        {
+            _sideBar = _sideBar == EnumSideBar.inactive ? 
+                        EnumSideBar.active : EnumSideBar.inactive;
         }
     }
 }
