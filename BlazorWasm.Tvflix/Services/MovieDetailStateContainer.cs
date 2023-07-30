@@ -2,14 +2,14 @@
 {
     public class MovieDetailStateContainer
     {
-        private string? Id;
+        private int _id;
 
-        public string Property
+        public int Id
         {
-            get => Id ?? string.Empty;
+            get => _id;
             set
             {
-                Id = value;
+                _id = value;
                 NotifyStateChanged();
             }
         }

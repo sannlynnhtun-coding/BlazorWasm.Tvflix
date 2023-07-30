@@ -1,4 +1,5 @@
 ﻿using BlazorWasm.Tvflix.Services;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorWasm.Tvflix.Pages
 {
@@ -8,11 +9,14 @@ namespace BlazorWasm.Tvflix.Pages
         private BannerList? _bannerList;
         private MovieDetail? _movieDetail;
         private MovieCategoryList? _movieCategoryList;
+        private string? _id;
+        private string? _search;
         private bool _isSearchCategory;
 
         protected override async Task OnInitializedAsync()
         {
             await Default();
+            StateContainer.OnChange += StateHasChanged;
         }
 
         private async Task GetMovieList(Genre genre)
@@ -24,15 +28,17 @@ namespace BlazorWasm.Tvflix.Pages
                 _movieCategoryList.genre_name = genre.name;
             }
 
+            StateContainer.Id = 0;
             _movieDetail = null;
             _isSearchCategory = true;
         }
 
         private async Task WatchNowClick(int id)
         {
-            _movieDetail = await MovieDetailService.GetAsync(id, ApiKey.Value);
+            // _movieDetail = await MovieDetailService.GetAsync(id, ApiKey.Value);
+            StateContainer.Id = id;
             _movieCategoryList = null;
-            StateHasChanged();
+            // StateHasChanged();
         }
 
         private async Task Default()
@@ -43,6 +49,23 @@ namespace BlazorWasm.Tvflix.Pages
             _bannerList = await BannerListService.SetGenre(_bannerList, _movieList);
             _movieDetail = null;
             _movieCategoryList = null;
+            StateContainer.Id = 0;
+            StateHasChanged();
+        }
+        public void Dispose()
+        {
+            StateContainer.OnChange -= StateHasChanged;
+        }
+        
+        private async Task HandelKeyPress(KeyboardEventArgs e)
+        {
+            if (e.Key is not "Enter")
+                return;
+            _movieCategoryList =await MovieCategoryListService.GetAsync(ApiKey.Value,
+                movieSearchType: EnumMovieSearchType.Keyword, keyword : _search);
+            StateContainer.Id = 0;
+            _movieDetail = null;
+            _isSearchCategory = true;
             StateHasChanged();
         }
     }

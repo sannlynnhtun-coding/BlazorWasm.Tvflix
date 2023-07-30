@@ -18,13 +18,8 @@
 }
 
 @code{
-
-    [Parameter]
-    public EventCallback<int> watchNow { get; set; }
-
-    private async Task WatchNowClick(int id)
+    void WatchNowClick(int id)
     {
-        await watchNow.InvokeAsync(id);
+        StateContainer.Id = id;
     }
-
 }

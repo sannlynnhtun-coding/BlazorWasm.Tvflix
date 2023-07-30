@@ -32,5 +32,10 @@ namespace BlazorWasm.Tvflix.Services
         public int total_results { get; set; }
     }
 
+    public enum EnumMovieSearchType
+    {
+        Category,
+        Keyword
+    }
 
 }

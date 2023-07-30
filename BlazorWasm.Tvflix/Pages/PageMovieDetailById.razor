@@ -1,47 +1,47 @@
-﻿@page "/detail"
+﻿
 @inject RecommendationsService recommendationsService
 @inject MovieDetailService movieDetailService
 @inject MovieDetailStateContainer StateContainer
-@if (Data is not null)
+@if (_data is not null)
 {
-    string backdrop_path = $"https://image.tmdb.org/t/p/original{Data.backdrop_path}";
-    string poster_path = $"https://image.tmdb.org/t/p/w1280{Data.poster_path}";
+    string backdrop_path = $"https://image.tmdb.org/t/p/original{_data.backdrop_path}";
+    string poster_path = $"https://image.tmdb.org/t/p/w1280{_data.poster_path}";
     <div class="movie-detail">
         <div class="backdrop-image" style="background-image: url('@backdrop_path')"></div>
 
         <figure class="poster-box movie-poster">
-            <img src="@poster_path" alt="@Data.title poster" class="img-cover">
+            <img src="@poster_path" alt="@_data.title poster" class="img-cover">
         </figure>
 
         <div class="detail-box">
 
             <div class="detail-content">
-                <h1 class="heading">@Data.title</h1>
+                <h1 class="heading">@_data.title</h1>
 
                 <div class="meta-list">
 
                     <div class="meta-item">
                         <img src="./assets/images/star.png" width="20" height="20" alt="rating">
 
-                        <span class="span">@Data.vote_average.ToString("0.#")</span>
+                        <span class="span">@_data.vote_average.ToString("0.#")</span>
                     </div>
 
                     <div class="separator"></div>
 
-                    <div class="meta-item">@Data.runtime</div>
+                    <div class="meta-item">@_data.runtime</div>
 
                     <div class="separator"></div>
 
-                    <div class="meta-item">@Data.release_date.Split("-")[0] ?? "Not Released"</div>
+                    <div class="meta-item">@_data.release_date.Split("-")[0] ?? "Not Released"</div>
 
-                    <div class="meta-item card-badge">@(Data.releases.countries.FirstOrDefault() == null ? "N/A" : Data.releases.countries.FirstOrDefault().certification)</div>
+                    <div class="meta-item card-badge">@(_data.releases.countries.FirstOrDefault() == null ? "N/A" : _data.releases.countries.FirstOrDefault().certification)</div>
 
                 </div>
 
-                <p class="genre">@(string.Join(',', Data.genres.Select(x => x.name)))</p>
+                <p class="genre">@(string.Join(',', _data.genres.Select(x => x.name)))</p>
 
                 <p class="overview">
-                    @Data.overview
+                    @_data.overview
                 </p>
 
                 <ul class="detail-list">
@@ -50,7 +50,7 @@
                         <p class="list-name">Starring</p>
 
                         <p>
-                            @(string.Join(',', Data.casts.cast.Select(x => x.name)))
+                            @(string.Join(',', _data.casts.cast.Select(x => x.name)))
                         </p>
                     </div>
 
@@ -59,7 +59,7 @@
 
                         <p>
 
-                            @(string.Join(',', Data.casts.crew.Select(x => x.name)))
+                            @(string.Join(',', _data.casts.crew.Select(x => x.name)))
                         </p>
                     </div>
 
@@ -73,7 +73,7 @@
 
             <div class="slider-list">
                 <div class="slider-inner">
-                    @foreach (var item in Data.videos.results)
+                    @foreach (var item in _data.videos.results)
                     {
                         string url = $"https://www.youtube.com/embed/{item.key}?&theme=dark&color=white&rel=0";
                         <div class="video-card">
@@ -107,23 +107,18 @@
 }
 
 @code {
-    [Parameter]
-    public MovieDetail? Data { get; set; }
-
-    //public MovieDetail? Data { get; set; }
-
+    private MovieDetail? _data;
     private Recommendations? _recommendations;
-    private int Id = 0;
+    [Parameter]
+    public int id { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        //Id = Convert.ToInt32(StateContainer.Property);
-        //Data = await movieDetailService.GetAsync(Id, ApiKey.Value);
-        if (Data != null)
+        _data = await movieDetailService.GetAsync(id, ApiKey.Value);
+        if (_data != null)
         {
-            _recommendations = await recommendationsService.GetAsync(Data.id, "3fd67b0a75a2861ff71511c8065512a7");
+            _recommendations = await recommendationsService.GetAsync(_data.id, ApiKey.Value);
         }
-        //StateContainer.OnChange += StateHasChanged;
     }
 
 }

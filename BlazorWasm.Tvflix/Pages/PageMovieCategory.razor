@@ -47,9 +47,6 @@
     [Parameter]
     public MovieCategoryList? Data { get; set; }
 
-    [Parameter]
-    public EventCallback<int> WatchNow { get; set; }
-
     private int _genreId;
 
     protected override void OnInitialized()
@@ -57,9 +54,9 @@
         _genreId = Data.genre_id;
     }
 
-    private async Task WatchNowClick(int id)
+    void WatchNowClick(int id)
     {
-        await WatchNow.InvokeAsync(id);
+        StateContainer.Id = id;
     }
 
     private async Task PageChanged(int i)

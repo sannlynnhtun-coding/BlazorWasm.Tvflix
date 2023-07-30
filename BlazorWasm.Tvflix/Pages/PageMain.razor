@@ -4,7 +4,7 @@
 @inject WeeklyTrendingMovieListService WeeklyTrendingListService
 @inject MovieCategoryListService MovieCategoryListService
 @inject MovieDetailService MovieDetailService
-@inject MovieDetailStateContainer StateContainer
+@implements IDisposable
 <!--
 - #HEADER
 -->
@@ -16,7 +16,10 @@
     </a>
     <div class="search-box" search-box>
         <div class="search-wrapper" search-wrapper>
-            <input type="text" name="search" aria-label="search movies" placeholder="Search any movies..."
+            <input type="text" name="search" aria-label="search movies" 
+                   @bind-value="_search" @bind-value:event="oninput"
+                                          @onkeypress="HandelKeyPress"
+                   placeholder="Search any movies..."
                    class="search-field" autocomplete="off" search-field>
 
             <img src="assets/images/search.png" width="24" height="24" alt="search" class="leading-icon">
@@ -84,27 +87,29 @@
     </nav>
     <div class="overlay" overlay menu-toggler></div>
 
-    @if (_movieDetail is null)
-    @*@if ( string.IsNullOrWhiteSpace(StateContainer.Property ))*@
+    @* @if (_movieDetail is null) *@
+    @if ( StateContainer.Id == 0)
     {
         <article class="container" page-content>
             @if (_isSearchCategory)
             {
-                <PageMovieCategory Data="_movieCategoryList" WatchNow="WatchNowClick"/>
+                @* <PageMovieCategory Data="_movieCategoryList" WatchNow="WatchNowClick"/> *@
+                <PageMovieCategory Data="_movieCategoryList" />
             }
             else
             {
                 <PageBanner watchNow=WatchNowClick Data="_bannerList"/>
-                <PageWeeklyTrendingMovieList watchNow="WatchNowClick" />
-                <TopRatedMovies watchNow="WatchNowClick"/>
-                <UpComingMovies watchNow="WatchNowClick" />
+                <PageWeeklyTrendingMovieList />
+                <TopRatedMovies />
+                <UpComingMovies />
             }
         </article>
     }
     else
     {
         <article class="container" page-content>
-            <PageMovieDetail Data="_movieDetail"/>
+            @* <PageMovieDetail Data="_movieDetail"/> *@
+            <PageMovieDetailById id="StateContainer.Id"/>
         </article>
     }
 </main>
