@@ -63,9 +63,9 @@
     [Parameter]
     public BannerList? Data { get; set; }
 
-    [Parameter]
-    public EventCallback<int> WatchNow { get; set; }
-    
+    //[Parameter]
+    //public EventCallback<int> WatchNow { get; set; }
+
     private int Id;
     private BannerTime Time = BannerTime.first;
 
@@ -77,6 +77,12 @@
 
     protected async Task WatchNowClick(int id)
     {
-        await WatchNow.InvokeAsync(id);
+        //await WatchNow.InvokeAsync(id);
+        StateContainer.Property = id;
+    }
+
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
     }
 }

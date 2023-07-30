@@ -98,7 +98,12 @@
 
 @code {
 
-    [Parameter]
-    public MovieDetail? Data { get; set; }
+    //[Parameter]
+    //public MovieDetail? Data { get; set; }
+    public MovieDetail? Data { get; set; } = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        Data = await MovieDetailService.GetAsync(, _key);
+    }
 }
