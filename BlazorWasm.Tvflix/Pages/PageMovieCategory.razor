@@ -61,10 +61,14 @@
 
     protected override void OnInitialized()
     {
+        //_genreId = Data.genre_id;
+        //_keyword = Data.keyword;
+    }
+    protected override void OnParametersSet()
+    {
         _genreId = Data.genre_id;
         _keyword = Data.keyword;
     }
-
     void WatchNowClick(int id)
     {
         StateContainer.Id = id;
