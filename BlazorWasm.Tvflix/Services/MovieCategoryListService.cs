@@ -17,7 +17,7 @@ namespace BlazorWasm.Tvflix.Services
         {
             
             string url = movieSearchType == EnumMovieSearchType.Keyword ? 
-            string.Format(ApiUrl.MovieSearch, key, keyword)  :
+            string.Format(ApiUrl.MovieSearch, key, keyword,pageNo)  :
             string.Format(ApiUrl.MovieCategoryList, key, pageNo, genre);
             var response = await _httpClient.GetAsync(url);
             if (response.IsSuccessStatusCode)

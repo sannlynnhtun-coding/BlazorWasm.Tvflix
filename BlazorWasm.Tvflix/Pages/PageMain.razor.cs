@@ -63,6 +63,7 @@ namespace BlazorWasm.Tvflix.Pages
                 return;
             _movieCategoryList =await MovieCategoryListService.GetAsync(ApiKey.Value,
                 movieSearchType: EnumMovieSearchType.Keyword, keyword : _search);
+            _movieCategoryList.keyword = _search;
             StateContainer.Id = 0;
             _movieDetail = null;
             _isSearchCategory = true;

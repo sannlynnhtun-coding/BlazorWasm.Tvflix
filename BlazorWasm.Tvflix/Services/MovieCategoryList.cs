@@ -26,6 +26,8 @@ namespace BlazorWasm.Tvflix.Services
         public int genre_id { get; set; }
         [JsonIgnore]
         public string? genre_name { get; set; }
+        [JsonIgnore]
+        public string? keyword { get; set; }
         public int page { get; set; }
         public List<MovieCategory> results { get; set; }
         public int total_pages { get; set; }

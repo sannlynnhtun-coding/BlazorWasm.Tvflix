@@ -121,7 +121,7 @@
         //Data = await movieDetailService.GetAsync(Id, ApiKey.Value);
         if (Data != null)
         {
-            _recommendations = await recommendationsService.GetAsync(Data.id, "3fd67b0a75a2861ff71511c8065512a7");
+            _recommendations = await recommendationsService.GetAsync(Data.id, ApiKey.Value);
         }
         //StateContainer.OnChange += StateHasChanged;
     }

@@ -10,6 +10,6 @@
         public const string MovieCategoryList = "https://api.themoviedb.org/3/discover/movie?api_key={0}&sort_by=popularity.desc&include_adult=false&page={1}&with_genres={2}";
         public const string UpComingList = "https://api.themoviedb.org/3/movie/upcoming?api_key={0}&page=1";
         public const string RecommendationsList = "https://api.themoviedb.org/3/movie/{0}/recommendations?api_key={1}&page=1";
-        public const string MovieSearch = "https://api.themoviedb.org/3/search/movie?api_key={0}&query={1}&page=1&include_adult=false";
+        public const string MovieSearch = "https://api.themoviedb.org/3/search/movie?api_key={0}&query={1}&page={2}&include_adult=false";
     }
 }

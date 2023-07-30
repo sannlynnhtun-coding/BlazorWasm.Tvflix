@@ -3,7 +3,15 @@
 {
     <section class="movie-list genre-list" aria-label="@Data.genre_name Movies">
         <div class="title-wrapper">
-            <h1 class="heading">All @Data.genre_name Movies</h1>
+            @if (@_keyword is not null)
+            {
+                <p class="label" style="color:red;">Results for</p>
+                <h1 class="heading">@_keyword</h1>
+            }
+            else
+            {
+                <h1 class="heading">All @Data.genre_name Movies</h1>
+            }
         </div>
         <div class="grid-list">
             @foreach (var item in Data.results)
@@ -35,7 +43,7 @@
         <div class="d-flex flex-column align-center">
             <MudPagination SelectedChanged="PageChanged"
                            Count="Data.total_pages"
-                           Class="pa-4 mt-5"/>
+                           Class="pa-4 mt-5" />
         </div>
         @* <button class="btn load-more" load-more="">Load More</button> *@
     </section>
@@ -49,9 +57,12 @@
 
     private int _genreId;
 
+    private string? _keyword;
+
     protected override void OnInitialized()
     {
         _genreId = Data.genre_id;
+        _keyword = Data.keyword;
     }
 
     void WatchNowClick(int id)
@@ -63,7 +74,10 @@
     {
         if (Data != null)
         {
-            var item = await MovieCategoryListService.GetAsync(ApiKey.Value, _genreId, i);
+            var item = _keyword is null ?
+            await MovieCategoryListService.GetAsync(ApiKey.Value, _genreId, i) :
+            await MovieCategoryListService.GetAsync(ApiKey.Value, pageNo: i,
+                movieSearchType: EnumMovieSearchType.Keyword, keyword: _keyword); ;
             if (item is not null)
             {
                 Data = item;
